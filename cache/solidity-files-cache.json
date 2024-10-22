@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\t6201\\OneDrive\\Documents\\Hackslash minor project\\DP\\contracts\\DPHRS.sol": {
+      "lastModificationDate": 1729565679219,
+      "contentHash": "3762c2dcc8de36bd2a04134e61774426",
+      "sourceName": "contracts/DPHRS.sol",
+      "solcConfig": {
+        "version": "0.8.27",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.7.0 <0.9.0"
+      ],
+      "artifacts": [
+        "DPHRS"
+      ]
+    }
+  }
+}

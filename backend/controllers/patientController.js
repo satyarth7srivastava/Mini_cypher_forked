@@ -1,4 +1,4 @@
-const Patient = require('../models/patient');
+const Patient = require('../models/Patient');
 
 exports.registerPatient = async (req, res) => {
   const { name, age, photo } = req.body;

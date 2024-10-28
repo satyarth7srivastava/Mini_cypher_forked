@@ -8,7 +8,7 @@ const contractABI = ABI;
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 function DoctorRegistration() {
-  const [doctorAddress, setDoctorAddress] = useState('');
+  const [licenseNumber, setlicenseNumber] = useState('');
   const [doctorName, setDoctorName] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [status, setStatus] = useState('');
@@ -18,19 +18,19 @@ function DoctorRegistration() {
 
     try {
       //  Save doctor data to MongoDB
-      const response = await axios.post('http://localhost:5000/doctors/register', {
+      /*const response = await axios.post('http://localhost:5000/doctors/register', {
         doctorAddress,
         doctorName,
         specialization
-      });
+      });*/
 
-      if (response.status === 201) {
+      if (1) {
         // Register doctor on Blockchain
         const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = provider.getSigner();
+        const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-        const tx = await contract.registerDoctor(doctorAddress, doctorName, specialization);
+        const tx = await contract.registerDoctor(doctorName, specialization, licenseNumber);
         await tx.wait();
 
         setStatus('Doctor registered successfully and saved to MongoDB!');
@@ -49,9 +49,9 @@ function DoctorRegistration() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={doctorAddress}
-          onChange={(e) => setDoctorAddress(e.target.value)}
-          placeholder="Doctor Address"
+          value={licenseNumber}
+          onChange={(e) => setlicenseNumber(e.target.value)}
+          placeholder="Doctor licenseNumber"
           required
         />
         <input

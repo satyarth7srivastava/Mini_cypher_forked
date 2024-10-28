@@ -10,9 +10,9 @@ contract DPHRS {
     }
 
     struct DoctorDetails {
-        string name;
-        string specialization;
-        string licenseNumber;
+        address doctorAddress;    // Corrected structure to include the address
+        string doctorName;       
+        string specialization;    
         bool isRegistered;
     }
 
@@ -38,7 +38,7 @@ contract DPHRS {
 
     // Mappings for storing data
     mapping(uint256 => PatientDetails) public patientDetails;
-    mapping(uint256 => DoctorDetails) public doctorDetails;
+    mapping(uint256 => DoctorDetails) public doctorDetails; // Changed this to include doctorDetails mapping properly
     mapping(address => uint256) public addressToPatientId;
     mapping(address => uint256) public addressToDoctorId;
     mapping(uint256 => HealthData[]) public patientData;
@@ -57,8 +57,8 @@ contract DPHRS {
         _;
     }
 
-    uint256 nextPatientId = 1;
-    uint256 nextDoctorId = 1;
+    uint256 private nextPatientId = 1;
+    uint256 private nextDoctorId = 1;
 
     // Function to register a patient
     function registerPatient(string memory _name, uint256 _age, string memory _photo) public {
@@ -69,15 +69,16 @@ contract DPHRS {
     }
 
     // Function to register a doctor
-    function registerDoctor(string memory _name, string memory _specialization, string memory _licenseNumber) public {
+    function registerDoctor(string memory _name, string memory _specialization) public {
         uint256 doctorId = nextDoctorId++;
-        doctorDetails[doctorId] = DoctorDetails(_name, _specialization, _licenseNumber, true);
+        doctorDetails[doctorId] = DoctorDetails(msg.sender, _name, _specialization, true); // Use msg.sender for address
         addressToDoctorId[msg.sender] = doctorId;
         emit DoctorRegistered(doctorId, _name, _specialization);
     }
 
     // Function to create an appointment
     function createAppointment(uint256 _patientId, uint256 _doctorId, uint256 _date, string memory _appointmentHash) public {
+        require(addressToPatientId[msg.sender] == _patientId, "Not authorized"); // Only the patient can create an appointment
         Appointment memory newAppointment = Appointment(_patientId, _doctorId, _date, false, false, _appointmentHash);
         appointments[_patientId].push(newAppointment);
         emit AppointmentCreated(_patientId, _doctorId, _date, _appointmentHash);
@@ -126,7 +127,7 @@ contract DPHRS {
 
         HealthData storage data = patientData[_patientId][_dataIndex];
         data.dataHash = _newDataHash;
-        data.timestamp = block.timestamp;
+        data.timestamp = block.timestamp; // Update timestamp when modified
         data.addedBy = msg.sender;
         data.isAcceptedByPatient = false;  
 

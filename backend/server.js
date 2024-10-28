@@ -7,6 +7,8 @@ const healthDataRoutes = require('./routes/healthDataRoutes');
 require('dotenv').config(); 
 
 const app = express();
+const cors = require('cors');
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 app.use(express.json()); 
 
@@ -20,7 +22,7 @@ app.use('/appointments', appointmentRoutes);
 app.use('/healthdata', healthDataRoutes); 
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT =  5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

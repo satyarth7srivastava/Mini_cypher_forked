@@ -7,7 +7,7 @@ const contractABI = ABI;
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 function PatientRegistration() {
-  const [patientId, setPatientId] = useState('');
+  const [patientId, setPatientId] = useState(0);
   const [patientAddress, setPatientAddress] = useState('');
   const [name, setName] = useState('');
   const [age, setAge] = useState('');

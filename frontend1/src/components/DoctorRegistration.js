@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import ABI from "../ABI.json";
-import axios from 'axios'; // For API calls to backend
+import axios from 'axios';
 
-const contractABI = ABI;
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+
 
 function DoctorRegistration() {
   const [doctorAddress, setDoctorAddress] = useState('');
@@ -17,7 +17,7 @@ function DoctorRegistration() {
     e.preventDefault();
 
     try {
-      //  Save doctor data to MongoDB
+      // Register doctor on Blockchain and save to MongoDB via backend
       const response = await axios.post('http://localhost:5000/doctors/register', {
         doctorAddress,
         doctorName,
@@ -25,21 +25,12 @@ function DoctorRegistration() {
       });
 
       if (response.status === 201) {
-        // Register doctor on Blockchain
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-        const tx = await contract.registerDoctor(doctorAddress, doctorName, specialization);
-        await tx.wait();
-
         setStatus('Doctor registered successfully and saved to MongoDB!');
       } else {
         setStatus('Error saving doctor to MongoDB.');
       }
     } catch (error) {
-      setStatus('Error registering doctor.');
-      console.error(error);
+      console.error(error.response.data); 
     }
   };
 

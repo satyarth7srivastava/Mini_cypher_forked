@@ -5,6 +5,8 @@ node_modules
 # Hardhat files
 /cache
 /artifacts
+contract-abi.json
+contract-address.txt
 
 # TypeChain files
 /typechain

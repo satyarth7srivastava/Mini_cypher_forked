@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import ABI from "../ABI.json";
-
+ 
 const contractABI = ABI;
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
@@ -14,7 +14,7 @@ function PatientRegistration() {
   const [photo, setPhoto] = useState('');
   const [status, setStatus] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {     
     e.preventDefault();
     try {
       // Blockchain transaction

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { ethers } from 'ethers';
 import ABI from "../ABI.json";
- 
+
 const contractABI = ABI;
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
@@ -14,18 +14,21 @@ function PatientRegistration() {
   const [photo, setPhoto] = useState('');
   const [status, setStatus] = useState('');
 
-  const handleSubmit = async (e) => {     
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // console.log("Patient ID: ", patientId); remoeved as it is not used
       // Blockchain transaction
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = provider.getSigner();
+      // It will prompt user for account connections if it isnt connected
+      const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-      const tx = await contract.registerPatient(patientAddress, name);
+      const tx = await contract.registerPatient(name, age, photo); // wrong function parameters fixed
       await tx.wait();
 
       // Save to MongoDB
+      /*
       await axios.post('/patients', {
         patientId,
         address: patientAddress,
@@ -33,6 +36,7 @@ function PatientRegistration() {
         age,
         photo,
       });
+      */
 
       setStatus('Patient registered successfully!');
     } catch (error) {

@@ -14,7 +14,7 @@ const PatientSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
-    required: true,
+    required: true, 
   },
   photo: {
     type: String, 
